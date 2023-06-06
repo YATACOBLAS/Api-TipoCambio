@@ -44,8 +44,8 @@ public class CambioController {
 
     @GetMapping("/cambio/buscar/{monedaOrigen}/{monedaDestino}")
     ResponseEntity<Cambio> buscarTipoCambio(
-            @PathVariable("monedaOrigen") String monedaOrigen,
-            @PathVariable("monedaDestino") String monedaDestino){
+            @PathVariable("monedaOrigen") Long monedaOrigen,
+            @PathVariable("monedaDestino") Long monedaDestino){
         Optional<Cambio> optional = service.buscar(monedaOrigen,monedaDestino);
         Cambio c = new Cambio();
         if(optional.isPresent()){

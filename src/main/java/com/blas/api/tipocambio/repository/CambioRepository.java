@@ -16,5 +16,5 @@ public interface CambioRepository extends JpaRepository<Cambio,Long> {
     Optional<Cambio> guardarCambio(@Param("param1") String Origen,@Param("param2") String Destino,@Param("param3") double valor);
     @Query(
             value = "select * from cambio where id_moneda_origen=?1 and id_moneda_destino=?2",nativeQuery = true)
-    Optional<Cambio> buscarTipoCambio(String monedaOrigen,String monedaDestino);
+    Optional<Cambio> buscarTipoCambio(Long idMonedaOrigen,Long idMonedaDestino);
 }

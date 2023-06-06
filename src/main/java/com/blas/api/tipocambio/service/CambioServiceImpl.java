@@ -57,7 +57,7 @@ public class CambioServiceImpl implements CambioService{
 
 
     @Override
-    public Optional<Cambio> buscar(String monedaOrigen, String monedaDestino) {
-        return repository.buscarTipoCambio(monedaOrigen,monedaDestino);
+    public Optional<Cambio> buscar(Long idMonedaOrigen,Long idMonedaDestino) {
+        return repository.buscarTipoCambio(idMonedaOrigen,idMonedaDestino);
     }
 }

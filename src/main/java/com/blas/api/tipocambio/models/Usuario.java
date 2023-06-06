@@ -15,6 +15,7 @@ public class Usuario {
     @Column(name = "id_usuario")
     private Long id_usuario;
     private String nombre;
+    @Column(unique = true)
     private String email;
     private String password;
 

@@ -17,7 +17,8 @@ public class Solicitud {
     private Long idSolicitud;
     private Double monto;
     private Date fecha;
-
+    @Transient
+    private Double montoResultado;
     @ManyToOne
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;

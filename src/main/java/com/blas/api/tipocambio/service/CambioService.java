@@ -8,6 +8,6 @@ public interface CambioService {
    Cambio guardarCambio(String Origen,String Destino,double valor);
     Cambio guardar(Cambio cambio);
 
-    Optional<Cambio> buscar(String monedaOrigen,String monedaDestino);
+    Optional<Cambio> buscar(Long idMonedaOrigen,Long idMonedaDestino);
 
 }
