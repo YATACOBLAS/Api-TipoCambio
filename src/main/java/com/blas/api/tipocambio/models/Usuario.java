@@ -19,4 +19,12 @@ public class Usuario {
     private String email;
     private String password;
 
+    @OneToOne
+    @JoinColumn(name = "id_rol")
+    private Rol rol;
+
+    public Usuario(){
+        rol = new Rol();
+    }
+
 }

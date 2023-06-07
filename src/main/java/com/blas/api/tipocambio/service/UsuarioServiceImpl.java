@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
@@ -25,7 +26,12 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 
     @Override
     public List<Usuario> listar() {
-        return repository.findAll();
+        List<Usuario> lista= repository.findAll().stream().map(a->{
+            a.setPassword("");
+            return a;
+        }).collect(Collectors.toList());
+
+        return lista;
     }
 
     @Override

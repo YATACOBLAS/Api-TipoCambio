@@ -1,13 +1,17 @@
 package com.blas.api.tipocambio.Controller;
 
+import com.blas.api.tipocambio.models.Rol;
 import com.blas.api.tipocambio.models.Solicitud;
 import com.blas.api.tipocambio.models.Usuario;
+import com.blas.api.tipocambio.repository.RolRepository;
 import com.blas.api.tipocambio.security.AuthCredential;
+import com.blas.api.tipocambio.service.RolService;
 import com.blas.api.tipocambio.service.SolicitudService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,14 +33,22 @@ public class SolicitudController {
     @Autowired
     SolicitudService service;
 
+    @Autowired
+    RolService rolService;
     @PostMapping("/solicitud/guardar")
-    ResponseEntity<Solicitud> guardar(HttpServletRequest request, @RequestBody Solicitud solicitud) {
+    public ResponseEntity<?> guardar( @RequestBody Solicitud solicitud,HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
-        Usuario usuario = new Usuario();
-        usuario.setEmail(principal.getName());
+        Rol rol = rolService.buscarPorEmail(principal.getName());
+           if(rol.getDescripcion().contains("ADMIN") || rol.getDescripcion().contains("USER")){
+            Usuario usuario = new Usuario();
+            usuario.setEmail(principal.getName());
 
-        solicitud.setUsuario(usuario);
-        return ResponseEntity.ok(service.guardar(solicitud));
+            solicitud.setUsuario(usuario);
+            return ResponseEntity.ok(service.guardar(solicitud));
+
+        }
+        return ResponseEntity.status(  HttpStatus.UNAUTHORIZED).build();
+
     }
 
 

@@ -4,8 +4,11 @@ import com.blas.api.tipocambio.models.Cambio;
 import com.blas.api.tipocambio.models.Solicitud;
 import com.blas.api.tipocambio.models.Usuario;
 import com.blas.api.tipocambio.repository.CambioRepository;
+import com.blas.api.tipocambio.repository.RolRepository;
 import com.blas.api.tipocambio.repository.SolicitudRepository;
 import com.blas.api.tipocambio.repository.UsuarioRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +19,17 @@ import java.util.Optional;
 @Service
 public class SolicitudServiceImpl implements SolicitudService{
 
+    Logger logger = LoggerFactory.getLogger(SolicitudServiceImpl.class);
     @Autowired
     SolicitudRepository solicitudRepository;
     @Autowired
     CambioRepository cambioRepository;
     @Autowired
     UsuarioRepository usuarioRepository;
+
     @Override
     public Solicitud guardar(Solicitud solicitud) {
+
 
 
             Optional<Cambio> cambioOptional =cambioRepository.buscarTipoCambio(
@@ -32,8 +38,7 @@ public class SolicitudServiceImpl implements SolicitudService{
             );
 
             if(cambioOptional.isPresent()){
-                Cambio c = new Cambio();
-                c = cambioOptional.get();
+                Cambio c = cambioOptional.get();
                 solicitud.setCambio(c);
             }
     //buscar Idusuario
@@ -43,11 +48,11 @@ public class SolicitudServiceImpl implements SolicitudService{
                 u=usuarioOptional.get();
                 solicitud.setUsuario(u);
             }
-            Double montoInicial= solicitud.getMonto();
-            Double montoFinal= montoInicial*solicitud.getCambio().getValor();
+            Double montoInicial= solicitud.getMontoInicial();
+            Double montoFinal= montoInicial*solicitud.getCambio().getValor() ;
 
          Solicitud s= solicitudRepository.save(solicitud);
-         s.setMontoResultado(montoFinal);
+         s.setMontoFinal(montoFinal);
          s.getUsuario().setPassword("");
         return s;
     }
